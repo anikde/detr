@@ -15,3 +15,12 @@ experiment-*
 .mypy_cache/*
 not_tracked_dir/
 .vscode
+
+
+# folders
+outputs
+pretrained
+
+#files
+
+log.*

@@ -119,17 +119,39 @@ def make_coco_transforms(image_set):
         T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
 
-    scales = [480, 512, 544, 576, 608, 640, 672, 704, 736, 768, 800]
+    # scales = [480, 512, 544, 576, 608, 640, 672, 704, 736, 768, 800]
+
+    # if image_set == 'train':
+    #     return T.Compose([
+    #         T.RandomHorizontalFlip(),
+    #         T.RandomSelect(
+    #             T.RandomResize(scales, max_size=1333),
+    #             T.Compose([
+    #                 T.RandomResize([400, 500, 600]),
+    #                 T.RandomSizeCrop(384, 600),
+    #                 T.RandomResize(scales, max_size=1333),
+    #             ])
+    #         ),
+    #         normalize,
+    #     ])
+
+    # if image_set == 'val':
+    #     return T.Compose([
+    #         T.RandomResize([800], max_size=1333),
+    #         normalize,
+    #     ])
+
+    scales = [480, 512, 544, 576, 608, 640]
 
     if image_set == 'train':
         return T.Compose([
             T.RandomHorizontalFlip(),
             T.RandomSelect(
-                T.RandomResize(scales, max_size=1333),
+                T.RandomResize(scales, max_size=640),
                 T.Compose([
                     T.RandomResize([400, 500, 600]),
                     T.RandomSizeCrop(384, 600),
-                    T.RandomResize(scales, max_size=1333),
+                    T.RandomResize(scales, max_size=640),
                 ])
             ),
             normalize,
@@ -137,7 +159,7 @@ def make_coco_transforms(image_set):
 
     if image_set == 'val':
         return T.Compose([
-            T.RandomResize([800], max_size=1333),
+            T.RandomResize([600], max_size=640),
             normalize,
         ])
 
@@ -148,9 +170,14 @@ def build(image_set, args):
     root = Path(args.coco_path)
     assert root.exists(), f'provided COCO path {root} does not exist'
     mode = 'instances'
+    # PATHS = {
+    #     "train": (root / "train2017", root / "annotations" / f'{mode}_train2017.json'),
+    #     "val": (root / "val2017", root / "annotations" / f'{mode}_val2017.json'),
+    # }
     PATHS = {
-        "train": (root / "train2017", root / "annotations" / f'{mode}_train2017.json'),
-        "val": (root / "val2017", root / "annotations" / f'{mode}_val2017.json'),
+        "train": (root / "train/images", root / "train" / f'annotation.json'),
+        "val": (root / "val/images", root / "val" / f'annotation.json'),
+        "test": (root / "test/images", root / "test" / f'annotation.json'),
     }
 
     img_folder, ann_file = PATHS[image_set]
