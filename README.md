@@ -53,7 +53,7 @@ CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch \
   --use_env \
 ....
 ```
-The pretrained DETR model with backbone R50, schedule 500, inf_time 0.036 and boxAP 42.0 of size 159Mb can be downloaded from [this link]().
+The pretrained DETR model with backbone R50, schedule 500, inf_time 0.036 and boxAP 42.0 of size 159Mb can be downloaded from [this link](https://drive.google.com/file/d/1V0p4_hQKPPEpmTJ1YYnK9BVQPdWKLzxk/view?usp=sharing).
 
 ## Evaluation
 Please to the modificaitons as needed.
